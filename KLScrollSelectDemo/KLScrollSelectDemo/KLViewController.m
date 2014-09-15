@@ -92,8 +92,9 @@
 - (void)scrollSelect:(KLScrollSelect *)tableView didSelectCellAtIndexPath:(KLIndexPath *)indexPath {
     NSLog(@"Selected cell at index %ld, %ld, %ld", (long)indexPath.column, (long)indexPath.section, (long)indexPath.row);
 }
-- (CGFloat) scrollSelect: (KLScrollSelect*) scrollSelect heightForColumnAtIndex: (NSInteger) index {
-    return 150;
+-(CGFloat)scrollSelect:(KLScrollSelect *)tableView heightForCellAtIndexPath:(KLIndexPath *)indexPath
+{
+    return ((indexPath.row % 3) + 1) * 50;
 }
 
 -(CGFloat)columnWidthAtIndex:(NSInteger)index

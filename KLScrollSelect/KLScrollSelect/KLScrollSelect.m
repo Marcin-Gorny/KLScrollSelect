@@ -114,34 +114,34 @@
 
 #pragma mark - Driver & Passenger animation implementation
 -(void) synchronizeContentOffsetsWithDriver:(KLScrollingColumn*) drivingColumn {
-    if (self.driver.offsetDelta == 0)
-        return;
-    for (KLScrollingColumn* currentColumn in self.passengers) {
-        CGPoint currentOffset = currentColumn.contentOffset;
-        CGFloat relativeScrollRate = currentColumn.scrollRate / drivingColumn.scrollRate;
-        currentOffset.y += drivingColumn.offsetDelta* relativeScrollRate;
-        
-        //Only move passenger when offset has accumulated to the min pixel movement threshold (0.5)
-        currentColumn.offsetAccumulator += fabs(drivingColumn.offsetDelta * relativeScrollRate);
-        if (currentColumn.offsetAccumulator >= 0.5) {
-            [currentColumn setContentOffset: currentOffset];
-            currentColumn.offsetAccumulator = 0;
-        }
-    }
+//    if (self.driver.offsetDelta == 0)
+//        return;
+//    for (KLScrollingColumn* currentColumn in self.passengers) {
+//        CGPoint currentOffset = currentColumn.contentOffset;
+//        CGFloat relativeScrollRate = currentColumn.scrollRate / drivingColumn.scrollRate;
+//        currentOffset.y += drivingColumn.offsetDelta* relativeScrollRate;
+//        
+//        //Only move passenger when offset has accumulated to the min pixel movement threshold (0.5)
+//        currentColumn.offsetAccumulator += fabs(drivingColumn.offsetDelta * relativeScrollRate);
+//        if (currentColumn.offsetAccumulator >= 0.5) {
+//            [currentColumn setContentOffset: currentOffset];
+//            currentColumn.offsetAccumulator = 0;
+//        }
+//    }
 }
 -(void) startScrollingDriver {
-    self.driver = self.columns[0];
-    
-    if (self.animating) {
-        return;
-    }
-    CGFloat animationDuration = 0.5f / self.driver.scrollRate;
-    self.animationTimer = [NSTimer scheduledTimerWithTimeInterval: animationDuration
-                                                           target:self
-                                                         selector:@selector(updateDriverAnimation)
-                                                         userInfo:nil
-                                                          repeats:YES];
-    [self.animationTimer fire];
+//    self.driver = self.columns[0];
+//    
+//    if (self.animating) {
+//        return;
+//    }
+//    CGFloat animationDuration = 0.5f / self.driver.scrollRate;
+//    self.animationTimer = [NSTimer scheduledTimerWithTimeInterval: animationDuration
+//                                                           target:self
+//                                                         selector:@selector(updateDriverAnimation)
+//                                                         userInfo:nil
+//                                                          repeats:YES];
+//    [self.animationTimer fire];
 }
 -(void) updateDriverAnimation {
     [self updateDriverOffset];
@@ -165,26 +165,26 @@
 #pragma mark - UIScrollViewDelegate implementation
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     //Stop animating driver
-    [self setDriver: (KLScrollingColumn*) scrollView];
-    [self stopScrollingDriver];
+//    [self setDriver: (KLScrollingColumn*) scrollView];
+//    [self stopScrollingDriver];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     //Start animating driver
-    [self startScrollingDriver];
+//    [self startScrollingDriver];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (!decelerate) {
-        [self startScrollingDriver];
-    }
+//    if (!decelerate) {
+//        [self startScrollingDriver];
+//    }
 }
 
 #pragma  UITableViewDataSource implementation
 //Column data source implementation
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSInteger columnIndex = [self indexOfColumn: (KLScrollingColumn*)tableView];
-    NSInteger numberOfRows = [self scrollSelect:self numberOfRowsInColumnAtIndex: columnIndex] * 3;
+    NSInteger numberOfRows = [self scrollSelect:self numberOfRowsInColumnAtIndex: columnIndex];
     return numberOfRows;
 }
 
@@ -294,26 +294,26 @@
 
 @implementation KLScrollingColumn
 - (BOOL) didReachTopBounds {
-    return self.contentOffset.y <= 0.0;
+//    return self.contentOffset.y <= 0.0;
 }
 - (BOOL) didReachBottomBounds {
-    return self.contentOffset.y >= ( self.contentSize.height - self.bounds.size.height);
+//    return self.contentOffset.y >= ( self.contentSize.height - self.bounds.size.height);
 }
 - (void)resetContentOffsetIfNeeded
 {
-    CGPoint contentOffset  = self.contentOffset;
-    //check the top condition
-    //check if the scroll view reached its top.. if so.. move it to center.. remember center is the start of the data repeating for 2nd time.
-    if ([self didReachTopBounds] || [self didReachBottomBounds]) {
-        isResettingContent = YES;
-        if([self didReachTopBounds])
-            contentOffset.y = self.contentSize.height/3.0f;
-        else if([self didReachBottomBounds] )//scrollview content offset reached bottom minus the height of the tableview
-            //this scenario is same as the data repeating for 2nd time minus the height of the table view
-            contentOffset.y = self.contentSize.height/3.0f - self.bounds.size.height;
-        [self setContentOffset: contentOffset];
-        isResettingContent = NO;
-    }
+//    CGPoint contentOffset  = self.contentOffset;
+//    //check the top condition
+//    //check if the scroll view reached its top.. if so.. move it to center.. remember center is the start of the data repeating for 2nd time.
+//    if ([self didReachTopBounds] || [self didReachBottomBounds]) {
+//        isResettingContent = YES;
+//        if([self didReachTopBounds])
+//            contentOffset.y = self.contentSize.height/3.0f;
+//        else if([self didReachBottomBounds] )//scrollview content offset reached bottom minus the height of the tableview
+//            //this scenario is same as the data repeating for 2nd time minus the height of the table view
+//            contentOffset.y = self.contentSize.height/3.0f - self.bounds.size.height;
+//        [self setContentOffset: contentOffset];
+//        isResettingContent = NO;
+//    }
 }
 
 //The heart of this app.
@@ -324,7 +324,6 @@
 {
     [super layoutSubviews];
     mTotalCellsVisible = self.frame.size.height / self.rowHeight;
-    [self resetContentOffsetIfNeeded];
 }
 
 - (void)willMoveToWindow:(UIWindow *)newWindow {
